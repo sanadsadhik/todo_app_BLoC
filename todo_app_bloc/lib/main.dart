@@ -81,8 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
       child: StreamBuilder(
         stream: _bloc.todos,
         initialData: [],
-        builder:
-            (BuildContext context, AsyncSnapshot<List<ToDoBloc>> snapshot) {
+        builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
           return ListView.builder(
             itemCount: _bloc.todosCount,
             itemBuilder: (context, index) {
@@ -108,5 +107,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               );
             }));
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _bloc.dispose();
   }
 }

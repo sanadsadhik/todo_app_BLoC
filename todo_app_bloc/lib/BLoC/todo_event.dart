@@ -4,6 +4,5 @@ abstract class ToDoEvent {}
 
 class AddToDo extends ToDoEvent {
   final ToDoBloc todo;
-  int position = 0;
-  AddToDo(this.todo, {this.position});
+  AddToDo(this.todo, {position = 0});
 }

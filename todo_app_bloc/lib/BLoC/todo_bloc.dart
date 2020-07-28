@@ -39,13 +39,13 @@ class ToDosBloc extends ToDoEvent {
 
   void _mapEventToState(ToDoEvent event) {
     if (event is AddToDo) {
-      _todosList.insert(event.position, event.todo);
+      _todosList.insert(0, event.todo);
     }
     _intodos.add(_todosList);
     return;
   }
 
-  void _dispose() {
+  void dispose() {
     _toDosStateController.close();
     _toDoEventController.close();
   }
