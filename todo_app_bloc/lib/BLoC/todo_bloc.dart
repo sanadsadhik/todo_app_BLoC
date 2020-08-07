@@ -1,6 +1,14 @@
 import 'dart:async';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app_bloc/BLoC/todo_event.dart';
 import 'package:uuid/uuid.dart';
+
+abstract class ToDoEvent {}
+
+class AddToDo extends ToDoEvent {
+  final ToDoBloc todo;
+  AddToDo(this.todo, {position = 0});
+}
 
 class ToDoBloc {
   var _uuid = Uuid();
@@ -17,36 +25,23 @@ class ToDoBloc {
   String toString() => "$title $id";
 }
 
-class ToDosBloc extends ToDoEvent {
-  List<ToDoBloc> _todosList = [];
+class ToDosBloc extends Bloc<AddToDo, List<ToDoBloc>> {
+  /*
+  @override
+  List<ToDoBloc> get initialState => [];
+  */
+  ToDosBloc(List<ToDoBloc> initialState) : super(initialState);
+
+  //List<ToDoBloc> get todosList => [];
   bool _displayToDo = false;
 
   //List<ToDoBloc> get todos => _todosList;
 
-  int get todosCount => _todosList.length;
+  //int get todosCount => todosList.length;
   get displayToDo => _displayToDo;
 
-  final _toDosStateController = StreamController<List<ToDoBloc>>();
-  StreamSink<List<ToDoBloc>> get _intodos => _toDosStateController.sink;
-  Stream<List<ToDoBloc>> get todos => _toDosStateController.stream;
-
-  final _toDoEventController = StreamController<ToDoEvent>();
-  Sink<ToDoEvent> get todoEventSink => _toDoEventController.sink;
-
-  ToDosBloc() {
-    _toDoEventController.stream.listen(_mapEventToState);
-  }
-
-  void _mapEventToState(ToDoEvent event) {
-    if (event is AddToDo) {
-      _todosList.insert(0, event.todo);
-    }
-    _intodos.add(_todosList);
-    return;
-  }
-
-  void dispose() {
-    _toDosStateController.close();
-    _toDoEventController.close();
+  @override
+  Stream<List<ToDoBloc>> mapEventToState(AddToDo event) async* {
+    state.insert(0, event.todo);
   }
 }
