@@ -16,13 +16,13 @@ class ToDoBloc {
   String _id;
 
   ToDoBloc(this._title) {
-    this._id = _uuid.v4().toString();
+    //this._id = _uuid.v4().toString();
   }
   String get id => _id;
   String get title => _title;
 
   @override
-  String toString() => "$title $id";
+  String toString() => "$title";
 }
 
 class ToDosBloc extends Bloc<AddToDo, List<ToDoBloc>> {
