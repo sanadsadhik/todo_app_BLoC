@@ -8,7 +8,10 @@ void main() {
       'emits [] when no events added',
       build: () => ToDosBloc([]),
       act: (todosBloc) => todosBloc.add(AddToDo(ToDoBloc('tester todo'))),
-      expect: [],
+      expect: [
+        [],
+        ['tester todo']
+      ],
     );
   });
 }

@@ -31,54 +31,54 @@ class MyHomePage extends StatelessWidget {
     final todoTextController = TextEditingController();
     final todosbloc = BlocProvider.of<ToDosBloc>(context);
     return Scaffold(
-      body: Column(children: <Widget>[
-        Row(
-          children: <Widget>[
-            Flexible(
-              child: TextField(
-                controller: todoTextController,
-                decoration: InputDecoration(
-                    border: InputBorder.none, hintText: 'Enter a ToDo'),
-              ),
-            ),
-            FlatButton(
-              onPressed: () {
-                if (todoTextController.text.isNotEmpty) {
-                  todosbloc.add(AddToDo(ToDoBloc(todoTextController.text)));
-                }
-                todoTextController.clear();
-              },
-              child: Text(
-                "ADD TODO",
-              ),
-            )
-          ],
-        ),
-        Expanded(
-            child: SizedBox(
-                height: 200.0,
-                child: BlocBuilder<ToDosBloc, List<ToDoBloc>>(
-                  builder: (context, state) {
-                    return ListView.builder(
-                      itemCount: state.length,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                            title: Text(state[index].title,
-                                style: TextStyle(fontSize: 18)),
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      SingleToDoScreen(todo: state[index]),
-                                ),
-                              );
-                            });
-                      },
-                    );
+        appBar: AppBar(title: Text('Todo App')),
+        body: Center(child:
+            BlocBuilder<ToDosBloc, List<ToDoBloc>>(builder: (context, state) {
+          return Column(children: <Widget>[
+            Row(
+              children: <Widget>[
+                Flexible(
+                  child: TextField(
+                    controller: todoTextController,
+                    decoration: InputDecoration(
+                        border: InputBorder.none, hintText: 'Enter a ToDo'),
+                  ),
+                ),
+                FlatButton(
+                  onPressed: () {
+                    if (todoTextController.text.isNotEmpty) {
+                      todosbloc.add(AddToDo(ToDoBloc(todoTextController.text)));
+                    }
+                    todoTextController.clear();
                   },
-                ))),
-      ]),
-    );
+                  child: Text(
+                    "ADD TODO",
+                  ),
+                )
+              ],
+            ),
+            Expanded(
+                child: SizedBox(
+              height: 200.0,
+              child: ListView.builder(
+                itemCount: state.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                      title: Text(state[index].title,
+                          style: TextStyle(fontSize: 18)),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                SingleToDoScreen(todo: state[index]),
+                          ),
+                        );
+                      });
+                },
+              ),
+            )),
+          ]);
+        })));
   }
 }

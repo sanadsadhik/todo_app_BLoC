@@ -42,6 +42,9 @@ class ToDosBloc extends Bloc<AddToDo, List<ToDoBloc>> {
 
   @override
   Stream<List<ToDoBloc>> mapEventToState(AddToDo event) async* {
-    state.insert(0, event.todo);
+    final List<ToDoBloc> newList = List.from(state);
+    newList.add(event.todo);
+    yield newList;
+    //state.insert(0, event.todo);
   }
 }
